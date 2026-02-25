@@ -1,5 +1,6 @@
 # Atelier 3 - Test de charge
 ce projet n'est pas un fork d'un dépôt public , il s'agit d'un de mes projets de classe — un clicker en Golang/Docker que j'ai réutilisé pour réaliser cet atelier .
+projet initial : https://hub.docker.com/r/tikhiyzima/clicker
 
 ## Scénarios de test
 Le fichier `locustfile.py` couvre deux cas :
