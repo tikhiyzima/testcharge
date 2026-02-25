@@ -1,0 +1,9 @@
+CREATE DATABASE IF NOT EXISTS clicker;
+USE clicker;
+
+CREATE TABLE IF NOT EXISTS counter (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    count_value INT NOT NULL DEFAULT 0
+);
+
+INSERT IGNORE INTO counter (id, count_value) VALUES (1, 0);

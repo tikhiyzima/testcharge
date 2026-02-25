@@ -1,0 +1,50 @@
+services:
+  app:
+    image: tikhiyzima/clicker:latest
+    ports:
+      - "8888:8888"
+    environment:
+      - DB_HOST=mariadb
+    networks:
+      - mon_reseau
+      
+    deploy:
+      replicas: 3 
+      restart_policy:
+        condition: on-failure
+
+  mariadb:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: azertyuiop
+      MYSQL_DATABASE: clicker
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      
+    networks:
+      - mon_reseau
+      
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+
+  phpmyadmin:
+      image: adminer:latest
+      ports:
+        - "8080:8080"
+      networks:
+        - mon_reseau
+      deploy:
+        replicas: 1
+        placement:
+          constraints:
+            - node.role == manager
+volumes:
+  mariadb_data:
+
+networks:
+  mon_reseau:
+    driver: overlay 
+    attachable: true
+

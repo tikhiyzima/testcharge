@@ -1,0 +1,42 @@
+services:
+  app:
+    image: tikhiyzima/clicker:latest
+    ports:
+      - "8888:8888"
+    depends_on:
+      - mariadb
+    environment:
+      - DB_HOST=mariadb
+    restart: always #.  <- go démarres plus vite que mariaDB donc connexion échouée
+    networks:
+      - mon_reseau
+
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: azertyuiop
+      MYSQL_DATABASE: clicker
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - mon_reseau
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mariadb
+    depends_on:
+      - mariadb
+    networks:
+      - mon_reseau
+
+volumes:
+  mariadb_data:
+
+networks:
+  mon_reseau:
